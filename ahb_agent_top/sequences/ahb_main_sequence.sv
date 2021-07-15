@@ -12,7 +12,7 @@ endfunction : new
 
 task ahb_main_sequence::body();
 
-	repeat(`COUNT)
+	repeat(COUNT)
 	begin
 
 	if(!i[0])

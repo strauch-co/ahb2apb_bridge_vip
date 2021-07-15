@@ -1,0 +1,7 @@
+dut/bridge.v
+-f rtl/filelist
+-f ahb_agent_top/filelist
+-f apb_agent_top/filelist
+-f env/filelist
+-f test/filelist
+top.sv

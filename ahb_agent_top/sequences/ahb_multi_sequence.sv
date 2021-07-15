@@ -16,7 +16,7 @@ endfunction : new
 task ahb_multi_sequence::body();
 
  
- repeat(`COUNT)
+ repeat(COUNT)
  begin
  `uvm_info("APB_MULTI_SEQUENCE","Reseting sequence",UVM_LOW);
  req = ahb_transaction::type_id::create("req");

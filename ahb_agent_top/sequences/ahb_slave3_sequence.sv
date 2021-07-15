@@ -13,7 +13,7 @@ endfunction : new
 
 task ahb_slave3_sequence::body();
 
-	repeat(`COUNT)
+	repeat(COUNT)
 	begin
 
 	if(!i[0])

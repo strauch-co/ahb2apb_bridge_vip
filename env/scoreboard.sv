@@ -50,34 +50,36 @@ endfunction : write_WRITE
 function void scoreboard::write_READ(ahb_transaction tx);
  if(!tx.HWRITE)
  begin
-	addr_read.push_back(tx.HADDR);
-	data_read.push_back(tx.HRDATA);
+    addr_read.push_back(tx.HADDR);
+    data_read.push_back(tx.HRDATA);
  end
 endfunction : write_READ
 
 function void scoreboard::extract_phase(uvm_phase phase);
-phase.raise_objection(this);
+  //// cannot run objections on extract phase (extract_phase is a function, not a task! ////
+  //phase.raise_objection(this);
   repeat(addr_write.size())
   begin
-   int ar,aw,dr,dw;
-	ar = addr_read.pop_front();
-	aw = addr_write.pop_front();
-	dr = data_read.pop_front();
-	dw = data_write.pop_front();
+    int ar,aw,dr,dw;
 
-     if({ar,dr} == {aw,dw})
-	begin
-	`uvm_info("SCOREBOARD",{get_type_name()," Transaction matches"},UVM_MEDIUM);
-	pass++;
-	end
-     else 
-	begin
-	`uvm_info("SCOREBOARD",{get_type_name(),$sformatf(" Transaction failed { read_addr = %0d, read_data = %0d, write_addr = %0d, write_data = %0d",ar,dr,aw,dw)},UVM_MEDIUM);
-	fail++;
-  	end
+    ar = addr_read.pop_front();
+    aw = addr_write.pop_front();
+    dr = data_read.pop_front();
+    dw = data_write.pop_front();
+
+    if({ar,dr} == {aw,dw})
+    begin
+      `uvm_info("SCOREBOARD",{get_type_name()," Transaction matches"},UVM_MEDIUM);
+      pass++;
+    end
+    else 
+    begin
+      `uvm_info("SCOREBOARD",{get_type_name(),$sformatf(" Transaction failed { read_addr = %0d, read_data = %0d, write_addr = %0d, write_data = %0d",ar,dr,aw,dw)},UVM_MEDIUM);
+      fail++;
+    end
   end
- `uvm_info("SCOREBOARD",$sformatf("Results { PASS : %0d  FAIL : %0d }",pass,fail),UVM_HIGH);
-phase.drop_objection(this);
+  `uvm_info("SCOREBOARD",$sformatf("Results { PASS : %0d  FAIL : %0d }",pass,fail),UVM_HIGH);
+  //phase.drop_objection(this);
 endfunction : extract_phase
 
 
